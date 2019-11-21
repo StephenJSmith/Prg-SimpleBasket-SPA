@@ -1,0 +1,58 @@
+<h4>Add/ remove products to your basket one at a time</h4>
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <th scope="col">Product Name</th>
+    <th scope="col">Unit Price</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Add 1</th>
+    <th scope="col">Remove 1</th>
+    <th scope="col">Amount</th>
+    <th scope="col" class="text-right">
+      <button [disabled]="subOrderTotal <= 0"
+      (click)="onGoToBasket()"
+      class="btn btn-success">
+        Go to Basket
+      </button>
+    </th>
+  </thead>
+  <tr>
+    <td class="text-right" colspan="6">
+      Order Total (without Freight)
+    </td>
+    <td class="text-right">
+        {{subOrderTotal | currency}}
+      </td>
+    </tr>
+
+  <tr *ngFor="let product of products">
+    <td [ngClass]="{'font-weight-bold': product.quantity > 0}" >
+      {{product.name}}
+    </td>
+    <td [ngClass]="{'font-weight-bold': product.quantity > 0}"
+      class="text-right">
+      {{product.unitPrice | currency}}
+    </td>
+    <td [ngClass]="{'font-weight-bold': product.quantity > 0}"
+      class="text-right">
+      {{product.quantity}}
+    </td>
+    <td class="text-center">
+      <button class="btn btn-success"
+        (click)="onAddProductToBacket(product)">+</button>
+    </td>
+    <td class="text-center">
+      <button [disabled]="product.quantity <= 0"
+      (click)="onRemoveProductFromBacket(product)"
+      class="btn btn-danger">-</button>
+    </td>
+    <td [ngClass]="{'font-weight-bold': product.quantity > 0}"
+      class="text-right">
+      {{(product.unitPrice * product.quantity) | currency}}
+    </td>
+    <td></td>
+  </tr>
+</table>
+
+<div *ngIf="!products.length">
+  No products to select
+</div>

@@ -1,0 +1,84 @@
+<h4>Review and checkout your basket</h4>
+
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <th scope="col">Product Name</th>
+    <th scope="col">Unit Price</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Remove</th>
+  </thead>
+
+  <tr *ngFor="let product of productsInBasket">
+    <td>
+      {{product.name}}
+    </td>
+    <td class="text-right">
+      {{product.unitPrice | currency}}
+    </td>
+    <td class="text-right">
+      {{product.quantity}}
+    </td>
+    <td class="text-right">
+      {{(product.unitPrice * product.quantity) | currency}}
+    </td>
+    <td>
+      <button [disabled]="!canRemoveProducts"
+      (click)="onRemoveProduct(product)"
+        class="btn btn-danger">
+        Remove
+      </button>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="text-right font-weight-bold" colspan="3">
+      Subtotal (without Freight)
+    </td>
+    <td class="text-right">
+      {{subtotalAmount | currency}}
+    </td>
+    <td>
+      <button [disabled]="!canAddFreight"
+        class="btn btn-primary"
+        (click)="onAddFreight()">
+        Add Freight
+      </button>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="text-right" colspan="3">
+      Freight
+    </td>
+    <td class="text-right">
+      {{freightAmount | currency}}
+    </td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td class="text-right font-weight-bold" colspan="3">
+      Total Amount
+    </td>
+    <td class="text-right">
+      {{subtotalAmount + freightAmount | currency}}
+    </td>
+    <td>
+      <button [disabled]="!canCheckout"
+      (click)="onCheckout()"
+        class="btn btn-success">
+        Checkout
+      </button>
+    </td>
+  </tr>
+
+  <tr *ngIf="canNavigateToProducts">
+    <td class="text-center" colspan="5">
+      <button class="btn btn-primary"
+        (click)="onNavigateToProducts()">
+        Return to adding products to your basket
+      </button>
+    </td>
+  </tr>
+</table>
